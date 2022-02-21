@@ -10,8 +10,17 @@
 </head>
 
 <body>
-    <div>Microblog: <a href={{ url_for('index') }}>Home</a></div>
-    <div>Microblog: <a href={{ url_for('login') }}>Login</a></div>
+    Microblog:<br>
+    <div> <a href={{ url_for('index') }}>Home</a></div>
+    {% if current_user.is_anonymous %}
+    <div><a href={{ url_for('login') }}>Login</a></div>
+    <div> <a href={{ url_for('register') }}>Register Here</a></div>
+    {% else %}
+    <div><a href={{ url_for('user_profile',username=current_user.username) }}>Profile</a></div>
+    <div><a href={{ url_for('logout') }}>Logout</a></div>
+    {% endif %}
+
+
     <hr>
     {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -24,5 +33,6 @@
     {% endwith %}
     {% block content %}{% endblock %}
 </body>
-
+    {% block scripts %}
+    {% endblock scripts %}
 </html>
