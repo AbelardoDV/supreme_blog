@@ -30,7 +30,8 @@ class User(UserMixin, db.Model):
     followed = db.relationship('User', secondary=followers,
                                primaryjoin=(followers.c.follower_id == id),
                                secondaryjoin=(followers.c.followed_id == id),
-                               backref=db.backref('followers', lazy='dynamic'), lazy='dynamic'
+                               backref=db.backref('followers', lazy='dynamic'),
+                               lazy='dynamic'
                                )
 
     def __repr__(self) -> str:
@@ -46,20 +47,25 @@ class User(UserMixin, db.Model):
     def check_password(self, password: str) -> bool:
         return check_password_hash(self.password_hash, password)
 
-    def follow(self, user) -> None:
+    def follow(self, user: 'User') -> None:
         self.followed.append(user)
 
-    def unfollow(self, user) -> None:
+    def unfollow(self, user: 'User') -> None:
         if self.followed.filter(followers.c.followed_id == user.id):
             self.followed.remove(user)
 
-    def is_following(self, user):
-        return self.followed.filter(followers.c.followed_id == user.id).count() > 0
+    def is_following(self, user: 'User'):
+        return self.followed.filter(
+            followers.c.followed_id == user.id).count() > 0
 
     def followed_posts(self):
-        own_posts = Post.query.filter_by(Post.user_id==self.id)
-        followed = Post.query.join(followers.c.follower_id == Post.user_id).filter_by(followers.c.followed_id == self.id)
+        own_posts = Post.query.filter_by(user_id=self.id)
+        followed = Post.query.join(
+            followers,
+            followers.c.followed_id == Post.user_id).filter(
+            followers.c.follower_id == self.id)
         return followed.union(own_posts).order_by(Post.timestamp.desc())
+
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
