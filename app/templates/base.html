@@ -11,13 +11,13 @@
 
 <body>
     Microblog:<br>
-    <div> <a href={{ url_for('index') }}>Home</a></div>
+     <a href={{ url_for('index') }}>Home</a>
     {% if current_user.is_anonymous %}
-    <div><a href={{ url_for('login') }}>Login</a></div>
-    <div> <a href={{ url_for('register') }}>Register Here</a></div>
+    <a href={{ url_for('login') }}>Login</a>
+     <a href={{ url_for('register') }}>Register</a>
     {% else %}
-    <div><a href={{ url_for('user_profile',username=current_user.username) }}>Profile</a></div>
-    <div><a href={{ url_for('logout') }}>Logout</a></div>
+    <a href={{ url_for('user_profile',username=current_user.username) }}>Profile</a>
+    <a href={{ url_for('logout') }}>Logout</a>
     {% endif %}
 
 

@@ -3,7 +3,7 @@
 {% from '_form_helper.html' import render_field %}
     <form method="POST">
         {{ form.hidden_tag() }}
-        {{ render_field(form.username) }}
+        {{ form.username.label }} {{ form.username(size=32) }}
         {{ render_field(form.email) }}
         {{ render_field(form.password) }}
         {{ render_field(form.password2) }}
