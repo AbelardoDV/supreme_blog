@@ -1,8 +1,13 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, BooleanField, PasswordField,\
-    SubmitField, EmailField
+    SubmitField, EmailField, TextAreaField
 from wtforms.validators import DataRequired, EqualTo, ValidationError, Email
 from app.models import User
+
+
+class PostForm(FlaskForm):
+    body = TextAreaField(label='Write a post:', validators=[DataRequired()])
+    submit = SubmitField()
 
 
 class LoginForm(FlaskForm):
@@ -12,6 +17,10 @@ class LoginForm(FlaskForm):
                              DataRequired()], render_kw={'autocomplete': 'on'})
     remember_me = BooleanField(label='Remember Me')
     submit = SubmitField(label='Sign In')
+
+
+class EmptyForm(FlaskForm):
+    submit = SubmitField()
 
 
 class RegisterForm(FlaskForm):

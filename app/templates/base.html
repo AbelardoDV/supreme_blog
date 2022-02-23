@@ -11,11 +11,12 @@
 
 <body>
     Microblog:<br>
-     <a href={{ url_for('index') }}>Home</a>
+    <a href={{ url_for('index') }}>Home</a>
     {% if current_user.is_anonymous %}
     <a href={{ url_for('login') }}>Login</a>
-     <a href={{ url_for('register') }}>Register</a>
+    <a href={{ url_for('register') }}>Register</a>
     {% else %}
+    <a href={{ url_for('explorer') }}>Explorer</a>
     <a href={{ url_for('user_profile',username=current_user.username) }}>Profile</a>
     <a href={{ url_for('logout') }}>Logout</a>
     {% endif %}
@@ -33,6 +34,18 @@
     {% endwith %}
     {% block content %}{% endblock %}
 </body>
-    {% block scripts %}
-    {% endblock scripts %}
+{% block scripts %}
+
+<script src="https://cdn.jsdelivr.net/npm/luxon@2.3.0/build/global/luxon.min.js"></script>
+
+<script>
+    const posts_times = document.getElementsByClassName('post_timestamp');
+    [...posts_times].forEach((element) => {
+        element.innerText = luxon.DateTime.fromISO(element.innerText, { zone: 'utc' }).toLocal().toLocaleString(luxon.DateTime.DATETIME_MED)
+    }
+    );
+
+</script>
+{% endblock scripts %}
+
 </html>

@@ -7,3 +7,4 @@ class Config(object):
         'DATABASE_URI') or \
         'postgresql://postgres:nemuuser@localhost:5432/microblog'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    POST_PER_PAGE = 25
